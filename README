@@ -1,5 +1,61 @@
-Data Structure:
-- Files in 'raw' are entered as read from scanned data sheets or archived electronic data files
-- Each survey date has both a 'salmon' and a 'survey' file.
-- The 'salmon' file has the individual entry info; the 'survey' file has the general info for the survey date.
+Salmon Survey Data
+==================
 
+This repository cleans and merges salmon survey data from scanned field sheets
+and Epicollect exports.
+
+Data Structure
+--------------
+
+- Files in `data/raw` are entered as read from scanned data sheets or archived
+  electronic data files.
+- Each survey date can have both a `salmon` and a `survey` file.
+- The `salmon` file has the individual fish/redd entry information.
+- The `survey` file has the general information for the survey date.
+
+Pipeline
+--------
+
+Run the salmon cleaning pipeline with:
+
+```bash
+python src/run_pipeline.py
+```
+
+The pipeline order is defined in `src/run_pipeline.py`:
+
+1. Clean scanned salmon files with `src/clean_scanned.py`
+2. Clean Epicollect salmon files with `src/clean_epicollect.py`
+3. Merge cleaned salmon files with `src/merge_salmon.py`
+
+Shared cleaning logic lives in:
+
+- `src/clean_common.py`
+- `src/utils.py`
+
+Inputs
+------
+
+The current salmon pipeline reads raw files from:
+
+- `data/raw/salmon/*scanned*`
+- `data/raw/salmon/*epicollect*`
+
+Outputs
+-------
+
+Running `src/run_pipeline.py` writes:
+
+- `data/interim/scanned_clean.csv`
+- `data/interim/epicollect_clean.csv`
+- `data/processed/salmon_merged.csv`
+- `data/processed/by_year/salmon_<year>.csv`
+
+Notes
+-----
+
+- Script filenames are descriptive instead of numbered so adding or reordering
+  future steps does not require renaming files.
+- The run order should be updated in `src/run_pipeline.py` when pipeline steps
+  change.
+- The scripts require Python with `pandas` and `numpy` installed.
