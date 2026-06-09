@@ -1,1 +1,5 @@
-For data cleaning of survey data
+Data Structure:
+- Files in 'raw' are entered as read from scanned data sheets or archived electronic data files
+- Each survey date has both a 'salmon' and a 'survey' file.
+- The 'salmon' file has the individual entry info; the 'survey' file has the general info for the survey date.
+
